@@ -1,0 +1,46 @@
+<style>
+	#cssmenu {
+	  background:rgb(46, 58, 71);
+	  list-style: none;
+	  /*margin: 0;
+	  padding: 0;
+	  width: 15em;*/
+	}
+	#cssmenu li {
+	  font: 90% 'Lucida Sans Unicode', 'Bitstream Vera Sans', 'Trebuchet Unicode MS', 'Lucida Grande', Verdana, Helvetica, sans-serif;/*
+	  margin: 0;
+	  padding: 0;*/
+	  list-style: none;
+	}
+	#cssmenu ul{
+		/*margin: 0;*/
+		padding:0; 
+	}
+	#cssmenu a {
+	  background:rgb(46, 58, 71);
+	  border-bottom: 1px solid #393939;
+	  color: #fff;
+	  display: block;
+	  padding:8px;
+
+	  text-decoration: none;
+	  font-weight: normal;
+	}
+	#cssmenu a:hover {
+	  background: rgb(123, 189, 66); /*url('hover.gif') left center no-repeat*/;
+	  color: #fff;
+	  padding-bottom: 8px;
+	}
+</style>
+
+
+<div id="<?$_name?>" <?$style?>>
+			<div id='cssmenu'>
+				<ul>
+	   				<li>
+		   				<?$Content?>
+	   				</li>
+				</ul>
+			</div>			
+</div>
+

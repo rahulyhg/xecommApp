@@ -1,0 +1,60 @@
+
+<link type="stylesheet" href="epan-components/xecommApp/templates/css/xecomm.css" />
+
+<script src="epan-components/xecommApp/templates/js/jquery.elevatezoom.js"></script>
+
+<div id="<?$_name?>">
+<?$Content?>
+	<div class="container">
+		<h2 class="text-center page page-header"><?$name?></h2>
+		<div class="row">
+			<div class="col-md-4 col-sm-4">
+				<img id="zoom_<?$id?>" width="100%" src="<?Product_image?>logo.png<?/Product_image?>" data-zoom-image="<?Product_image?>logo.png<?/Product_image?>"/>
+			</div>	
+			<div class="col-md-8 col-sm-8 detail thumbnail" style="box-shadow: 0 0 10px #ccc; padding:2%">
+				<div class="row">
+					<div class="col-md-4">SKU: <?$sku?></div>
+					<div class="col-md-8"><h4>Product: <?$name?></h4></div>
+				</div>
+				<h3>&#8377. <?$sale_price?></h3>
+				<div class="alert alert-success"><?$description?></div>
+				<div class="panel panel-default">
+  					<div class="panel-heading">Product Detail</div>
+  					<div class="panel-body">
+						<?product_details?><?/product_details?>
+  					</div>
+				</div>
+  				<div class="row">
+	  				<div class="col-md-4">
+	  					<?$add_to_cart_form?>
+	  				</div>
+  				</div>
+				<div class="row" style="margin:2% 0 0 0; color:#cccccc">
+					<div class="col-md-3"><small><span class="glyphicon glyphicon-certificate"></span> 100% Original</small></div>
+
+					<div class="col-md-3"><small><span class="glyphicon glyphicon-certificate"></span> Pay Securely</small></div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+
+<script>
+// // Todo inner zoom height="90px"
+//     $('#zoom_<?$id?>').elevateZoom({
+//     zoomType: "inner",
+// cursor: "crosshair",
+// zoomWindowFadeIn: 400,
+// zoomWindowFadeOut: 750
+//    });
+// todo outer zoom
+
+   $("#zoom_<?$id?>").elevateZoom({
+    		cursor: 'pointer', 
+    		galleryActiveClass: 'active', 
+    		imageCrossfade: false, 
+    	}); 
+</script>
+
+
+

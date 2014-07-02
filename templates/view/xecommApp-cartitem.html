@@ -1,0 +1,17 @@
+<div id="<?$_name?>" class=' <?$class?>'>
+
+			<?$choices?>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<?$product_name?>
+	</div>
+	<div class="col-md-4">
+		<?$qty?>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-info " onclick='javascript:$(this).univ().ajaxec("index.php?page=xecommApp_page_ajaxhandler_removecartitem&item_id=<?$id?>")'>Remove</button>	
+	</div>
+	
+</div>

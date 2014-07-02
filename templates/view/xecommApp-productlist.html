@@ -1,0 +1,70 @@
+<style>
+	#product{
+		width:23%;	
+		padding-top:2px;
+		float:left;
+		margin:0% 1% 0% 1%;
+
+	}
+	.product-img
+	{
+		min-height:180px;
+		max-height:180px;
+		overflow: hidden;
+	}
+	.well{
+		background-color:white;
+	}
+	.capitalize{
+		text-transform: capitalize;
+	}
+	.price-cut{
+		text-decoration: line-through;
+	}
+</style>
+<link type="stylesheet" href="epan-components/xecommApp/templates/css/xecomm.css" />
+
+<div id="<?$_name?>">
+		<?rows?>
+		<?row?>
+		<a href="?epan=web&subpage=xecommproductdetail&product_id=<?$id?>" >	
+			<div id="product" class="xecomm-product" >
+			    <div class="row">
+			    	<div class="col-md-12 text-center">
+						<div class='text-center product-img' style="padding:0 auto 0 auto;">
+							<img class="thumbnail" style="margin:0 auto 0 auto" width="200px"  src="<?Product_image?>logo.png<?/Product_image?>"/>
+						</div>
+			    	</div>	
+			    </div>
+
+				<div>
+					<div>
+						<p class="capitalize"><?name?>Products<?/name?></p>
+					</div>
+					<small class="price-cut">
+						&#8377;<?$original_price?>
+					</small>
+					<big class="text-danger">
+						&#8377;<?$sale_price?>
+					</big>	
+				</div>
+
+				<div class="row" >
+					<div class="col-md-12" id="addtocart">
+						<?$add_to_cart_form?>	
+						<!--<?$product_details?> -->
+					</div>
+					<div id="productdetail" class="col-md-2">
+			</a>	
+						<!--<?$product_details?> -->
+					</div>
+				</div>
+			</div>  	
+			<?/row?>
+			<?/rows?>
+	<div class="row">
+		<div class="col-md-12 pull-left">
+			<span style="margin-top:10px;"><?$paginator?></span>
+		</div>
+	</div>		
+</div>

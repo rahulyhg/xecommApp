@@ -1,0 +1,27 @@
+
+/*Todo product list csss */
+.xecomm-product:hover{
+	border: 1px solid rgb(123, 189, 66); 
+	padding: 10px;
+	box-shadow: 0 0 10px #ccc; 
+	-moz-box-shadow: 0 0 10px #ccc; 
+	-webkit-box-shadow: 0 0 10px #ccc; 
+}
+
+#productdetail > a:hover{
+	text-decoration: none;
+}
+#productdetail > a{
+	color:rgb(123, 189, 66);
+}
+
+
+
+/*Product Detail View css*/
+.zoom-img{
+	border:5px solid black;
+	box-shadow: 0 0 10px #ccc; 
+	-moz-box-shadow: 0 0 10px #ccc; 
+	-webkit-box-shadow: 0 0 10px #ccc; 
+	width:100%;
+}
