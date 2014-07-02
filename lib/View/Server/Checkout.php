@@ -51,24 +51,46 @@ class View_Server_Checkout extends \View{
 			$i++;
 		}
 
+
+		$form->addSeparator( 'atk-row noborder' );
+		$points_info_field = $form->addField('line','points_available');
+		$points_info_field->setAttr('disabled',true);
+		$points_info_field->template->set('row_class','offset8 span2');
+		
+		$social_user_for_points=$this->add('xsocialApp/Model_AllVerifiedMembers');
+		$social_user_for_points->tryLoadBy('emailID',$this->api->xecommauth->model['emailID']);
+		if($social_user_for_points->loaded()){
+			$points=$social_user_for_points->ref('xsocialApp/PointTransaction')->sum('points');
+			$points_info_field->set($points);
+		}
+
+		$points_redeemed_field = $form->addField('line','points_redeemed');
+		$points_redeemed_field->template->set('row_class','offset10 span2');		
+
 		$form->addSeparator( 'atk-row noborder' );
 		$total_field = $form->addField('line','total');
 		$total_field->setAttr('disabled','true');
 		$total_field->template->set('row_class','offset10 span2');
 		// $total_field->set();
 		$i=1;
+		$initial_total = 0;
 		foreach ($cart_items as $ci) {
 			$qty_field = $form->getElement('qty_'.$i);
 			$amount_field = $form->getElement('amount_'.$i);
 			$product_rate = $form->getElement('productrate_'.$i);
 
+
 			$qty_field->js('change')->univ()
 				->calculateRow($qty_field,$product_rate,$amount_field)
 				->calculateTotal($amount_fields_array,$total_field)
 				;
+			// $qty_field->js('change')->univ()
+
+			$initial_total += ($ci['qty'] * $ci['sale_price']);
 			$i++;
 		}
 
+		$total_field->set($initial_total);
 
 		$form->addField('Checkbox','i_read',"I have Read All trems & Conditions")->validateNotNull();
 		$form->addSubmit('Proceed');
@@ -78,7 +100,7 @@ class View_Server_Checkout extends \View{
 			if(!$form['i_read'])
 				$form->displayError('i_read','It is Must');
 
-
+			if($points)
 
 			$order=$this->add('xecommApp/Model_Order');
 			//FILL OTHER VALUES
@@ -102,7 +124,7 @@ class View_Server_Checkout extends \View{
 				)
 			)->setParent($l);
 
-		$this->js()->_load('xecomm-checkout');
+		$this->api->js()->_load('xecomm-checkout1');
 
 		parent::render();
 	}

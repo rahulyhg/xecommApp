@@ -16,11 +16,11 @@ class Model_AllActiveMembers extends Model_MemberAll{
 		$member->tryLoadAny();
 
 		if($member->loaded()){
-			$this->api->memorize('logged_in_user',$emailID);
+			$this->api->memorize('logged_in_ecomm_user',$emailID);
 			return true;			
 			}
 			else{
-				$this->api->forget('logged_in_user',$emailID);
+				$this->api->forget('logged_in_ecomm_user',$emailID);
 				return false;				
 			}
 	}

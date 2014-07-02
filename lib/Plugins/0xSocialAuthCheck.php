@@ -46,6 +46,8 @@ class Plugins_0xSocialAuthCheck extends \componentBase\Plugin{
 							'emailID' =>$social_user['emailID'],
 							);
 						$active_member->register($social_user_info);
+						$active_member['is_verify']=true;
+						$active_member->save();
 					}else{
 						// If not verified.. mark verified as well
 						if(!$active_member['is_verify']){

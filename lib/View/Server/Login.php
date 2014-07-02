@@ -16,10 +16,12 @@ class View_Server_Login extends \View{
 			// if we have $_GET['next_page'] 
 				// go to that
 				$this->api->redirect($this->api->url(null,array('subpage'=>$_GET['next_page'])));
+				return;
 			}else{
 			// else
 				// go to home
 				$this->api->redirect($this->api->url(null,array('subpage'=>'xecomm-home')));
+				return;
 			}
 		}
 

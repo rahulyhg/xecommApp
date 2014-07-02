@@ -13,10 +13,12 @@ class Model_Order extends \Model_Table{
 		$this->addField('order_status')->enum(array('OrderPlaced','OrderShiiped','OrderDenied'));
 		$this->addField('payment_status')->enum(array('Pending','Cleared','Denied'));
 		$this->addField('amount');
+		$this->addField('points_redeemed');
+		$this->addField('net_amount');
 		$this->addField('order_summary');
 		$this->addField('billing_address');
 		$this->addField('shipping_address');
-		$this->addField('order_date');
+		$this->addField('order_date')->defaultValue(date('Y-m-d'));
 		
 		$this->hasMany('xecommApp/OrderDetails','order_id');
 

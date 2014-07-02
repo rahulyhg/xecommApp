@@ -57,7 +57,7 @@ class View_AddToCart extends \View{
 			$old_cart[]=$new_product;
 			// throw new \Exception($form['qty']);
 			$this->api->memorize('xecommApp_cart',$old_cart);
-			$form->js(null,$this->js()->univ()->redirect($this->api->url(null)))->_selector('.xecommApp-cart')->trigger('reload')->execute();
+			$form->js(null,$form->js()->univ()->successMessage('Item Added'))->_selector('.xecommApp-cart')->trigger('reload')->execute();
 		}
 
 		parent::setModel($product);
