@@ -158,7 +158,7 @@ class Model_MemberAll extends \Model_Table{
 				$tm->send( "", "info@epan.in", $subject, $email_body ,false,null);
 			}catch( phpmailerException $e ) {
 				// throw $e;
-				$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
+				$this->api->js($this->api->xecommauth->model->sendOrderDetail();null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
 			}catch( Exception $e ) {
 				throw $e;
 			}
