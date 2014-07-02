@@ -21,7 +21,6 @@ class Model_Order extends \Model_Table{
 		$this->addField('order_date')->defaultValue(date('Y-m-d'));
 		
 		$this->hasMany('xecommApp/OrderDetails','order_id');
-
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
 
@@ -34,6 +33,7 @@ class Model_Order extends \Model_Table{
 		$this['shipping_address'] = $order_info['shipping_address'];
 		$this['payment_status'] = "Pending";
 		$this['order_status'] = "OrderPlaced";
+		$this['points_redeemed'] = $order_info['points_redeemed'];
 
 		$this->save();
 		$order_details=$this->add('xecommApp/Model_OrderDetails');
@@ -47,13 +47,17 @@ class Model_Order extends \Model_Table{
 				$order_details['rate']=$order_info['productrate_'.$i];
 				$order_details['amount']=$order_info['qty_'.$i]*$order_info['productrate_'.$i];
 				$total_amount+=$order_details['amount'];
+
 				$order_details->saveAndUnload();
 				$i++;
 
 			}
 
 			$this['amount']=$total_amount;
+			
 			//TODO NET AMOUNT, TAXES etc..
+			$this['net_amount'] = $total_amount - ( $order_info['points_redeemed'] / 10 );
+			
 			$this->save();
 
 

@@ -116,7 +116,55 @@ class Model_MemberAll extends \Model_Table{
 			return false;
 	}
 
+	function redeemPoint($redeemPoint,$remark=null){
+		$redeemPoint=(-1)*$redeemPoint;
+		if(!$this->loaded())
+			throw new \Exception("Model Must Be loaded");
+		
+		$xsocial_member=$this->add('xsocialApp/Model_MemberAll');
+		$xsocial_member->addCondition('emailID',$this['emailID']);
+		$xsocial_member->tryloadAny();
+		if($xsocial_member->loaded())
+			$xsocial_member->redeemPoint($redeemPoint,$remark);
+		return true;
+			
+	}
+
 	function sendSubscribtionMail(){
+
+		if(!$this->loaded()) throw $this->exception('Model Must Be Loaded Before Email Send');
+		
+		$l=$this->api->locate('addons','xecommApp', 'location');
+			$this->api->pathfinder->addLocation(
+			$this->api->locate('addons','xecommApp'),
+			array(
+		  		'template'=>'templates',
+		  		'css'=>'templates/css'
+				)
+			)->setParent($l);
+			$tm=$this->add( 'TMail_Transport_PHPMailer' );
+			$msg=$this->add( 'SMLite' );
+			$msg->loadTemplate( 'mail/subscribeMail' );
+
+			//$msg->trySet('epan',$this->api->current_website['name']);		
+			$enquiry_entries="some text related to register verification";
+			$msg->trySetHTML('form_entries',$enquiry_entries);
+
+			$email_body=$msg->render();	
+
+			$subject ="Your Epan Got An Enquiry !!!";
+
+			try{
+				$tm->send( "", "info@epan.in", $subject, $email_body ,false,null);
+			}catch( phpmailerException $e ) {
+				// throw $e;
+				$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
+			}catch( Exception $e ) {
+				throw $e;
+			}
+	}
+
+	function sendOrderDetail(){
 
 		if(!$this->loaded()) throw $this->exception('Model Must Be Loaded Before Email Send');
 		

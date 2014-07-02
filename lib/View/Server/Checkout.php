@@ -19,14 +19,13 @@ class View_Server_Checkout extends \View{
 		$form->setModel($this->api->xecommauth->model,array('first_name','address'));
 		$name_field=$form->getElement('first_name');
 		$name_field->setAttr('disabled','true');
-		$form->addField('text','shipping_address');
+				
 		$i=1;
 		$amount_fields_array=array();
 		foreach ($cart_items as $ci) {		
 			$product->load($ci['product_id']);
 			$product_id=$form->addField('hidden','productid_'.$i,'')->set($ci['product_id']);
 			
-
 			$product_rate=$form->addField('hidden','productrate_'.$i,'')->set($ci['sale_price']);
 			
 
@@ -52,10 +51,11 @@ class View_Server_Checkout extends \View{
 		}
 
 
+		
 		$form->addSeparator( 'atk-row noborder' );
 		$points_info_field = $form->addField('line','points_available');
 		$points_info_field->setAttr('disabled',true);
-		$points_info_field->template->set('row_class','offset8 span2');
+		$points_info_field->template->set('row_class','offset2 span2');
 		
 		$social_user_for_points=$this->add('xsocialApp/Model_AllVerifiedMembers');
 		$social_user_for_points->tryLoadBy('emailID',$this->api->xecommauth->model['emailID']);
@@ -80,6 +80,9 @@ class View_Server_Checkout extends \View{
 
  		$points_redeemed_field->js('change')->univ()->calculateNet($total_field,$points_redeemed_field, $net_amount_field, 10, $points, 1000);
 		// $total_field->set();
+
+		// shippng address and other information
+		$form->addField('text','shipping_address');
 		$i=1;
 		$initial_total = 0;
 		foreach ($cart_items as $ci) {
@@ -110,11 +113,14 @@ class View_Server_Checkout extends \View{
 			if(!$form['i_read'])
 				$form->displayError('i_read','It is Must');
 
-			if($points)
-
+			// if($points)
 			$order=$this->add('xecommApp/Model_Order');
 			//FILL OTHER VALUES
 			$order->placeOrder($form->getAllFields());
+
+			$this->api->xecommauth->model->sendOrderDetail();
+			$this->api->xecommauth->model->redeemPoint($form['points_redeemed'],"Used In point redeem order ID $order->id");
+			
 			$order->processPayment();
 
 			$this->js()->univ()->redirect($this->api->url(null,array('subpage'=>'xecomm-dashboard')))->execute();
