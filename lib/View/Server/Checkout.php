@@ -37,7 +37,7 @@ class View_Server_Checkout extends \View{
 			$product_field->template->set('row_class','span6');
 			$qty_field=$form->addField('line','qty_'.$i,'Qty')->set($ci['qty']);
 			$qty_field->template->set('row_class','span2');
-
+			$qty_field->addClass('numberOnly');
 			$rate_field=$form->addField('Readonly','rate_'.$i,'Rate')->set($ci['sale_price']);
 			
 			$rate_field->template->set('row_class','span2');
@@ -64,13 +64,21 @@ class View_Server_Checkout extends \View{
 			$points_info_field->set($points);
 		}
 
-		$points_redeemed_field = $form->addField('line','points_redeemed');
-		$points_redeemed_field->template->set('row_class','offset10 span2');		
 
 		$form->addSeparator( 'atk-row noborder' );
 		$total_field = $form->addField('line','total');
 		$total_field->setAttr('disabled','true');
 		$total_field->template->set('row_class','offset10 span2');
+
+		$points_redeemed_field = $form->addField('line','points_redeemed');
+		$points_redeemed_field->template->set('row_class','offset10 span2');		
+
+
+		$net_amount_field = $form->addField('line','net_amount');
+		$net_amount_field->template->set('row_class','offset10 span2');		
+		$net_amount_field->setAttr('disabled',true);
+
+ 		$points_redeemed_field->js('change')->univ()->calculateNet($total_field,$points_redeemed_field, $net_amount_field, 10, $points, 1000);
 		// $total_field->set();
 		$i=1;
 		$initial_total = 0;
@@ -83,12 +91,14 @@ class View_Server_Checkout extends \View{
 			$qty_field->js('change')->univ()
 				->calculateRow($qty_field,$product_rate,$amount_field)
 				->calculateTotal($amount_fields_array,$total_field)
+				->calculateNet($total_field,$points_redeemed_field, $net_amount_field, 10, $points, 1000)
 				;
 			// $qty_field->js('change')->univ()
 
 			$initial_total += ($ci['qty'] * $ci['sale_price']);
 			$i++;
 		}
+		
 
 		$total_field->set($initial_total);
 
@@ -124,7 +134,7 @@ class View_Server_Checkout extends \View{
 				)
 			)->setParent($l);
 
-		$this->api->js()->_load('xecomm-checkout1');
+		$this->api->js()->_load('xecomm-checkout5');
 
 		parent::render();
 	}
