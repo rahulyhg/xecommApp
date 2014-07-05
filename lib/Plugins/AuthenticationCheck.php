@@ -10,7 +10,9 @@ class Plugins_AuthenticationCheck extends \componentBase\Plugin{
 
 		
 		$this->addHook('website-page-loaded',array($this,'AuthenticatePage'));
+		
 	}
+
 
 	function AuthenticatePage($obj,&$page){
 
