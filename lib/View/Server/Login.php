@@ -39,7 +39,7 @@ class View_Server_Login extends \View{
 		// Redirect to Verify Account
 		$verify_btn=$this->add('Button')->set('Verification');
 			if($verify_btn->isClicked()){
-				$this->api->redirect($this->api->url(null,array('subpage'=>'xsocial-verify-account')));
+				$this->api->redirect($this->api->url(null,array('subpage'=>'xecomm-verifyaccount')));
 		 	}
 
 		if($form->isSubmitted()){

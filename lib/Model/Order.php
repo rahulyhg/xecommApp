@@ -34,8 +34,8 @@ class Model_Order extends \Model_Table{
 		$this['payment_status'] = "Pending";
 		$this['order_status'] = "OrderPlaced";
 		$this['points_redeemed'] = $order_info['points_redeemed'];
-
 		$this->save();
+		
 		$order_details=$this->add('xecommApp/Model_OrderDetails');
 			$i=1;
 			$total_amount=0;
@@ -74,5 +74,16 @@ class Model_Order extends \Model_Table{
 	}
 	function checkStatus(){
 		
+	}
+
+	function getAllOrder($member_id){
+		if($this->loaded())
+			throw new \Exception("member model loaded nahi hona chahiye");	
+			// $this->api->js(true)->univ()->errorMessage('Member Model Loded nahi hona chahiye');
+		 
+		 return $this->addCondition('member_id',$member_id);
+				
+		
+		// throw new \Exception($member['']);
 	}
 }

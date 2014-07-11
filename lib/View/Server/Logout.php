@@ -8,6 +8,7 @@ class View_Server_Logout extends \View{
 
 
 		$btn = $this->add('Button',null,'logout')->set('Logout')->setAttr(array('title'=>'Logout','data-toggle'=>'tooltip', 'data-placement'=>'bottom'));
+		
 		$btn->js(true)->hide();
 		if($login_email = $this->api->recall('logged_in_ecomm_user',false)){
 			$xecomm_auth =$this->add('BasicAuth',array('is_default_auth'=>false));

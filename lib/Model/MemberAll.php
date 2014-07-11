@@ -27,9 +27,26 @@ class Model_MemberAll extends \Model_Table{
 
 	}
 
-	function getDistande(){
+	function Verify($emailId,$activation_code){
+
+		// throw new \Exception("$emailId", 1);
+				
+		$member=$this->add('xecommApp/Model_MemberAll');
+		$member->addCondition('emailID',$emailId);
+		$member->addCondition('activation_code',$activation_code);
+		$member->tryLoadAny();
+		if($member->loaded()){
+			$member['is_verify']= true;
+			$this->api->exec_plugins('verifymember_register',array($member->id,$member));
+			$member->save();
+
+			return true;
+		}
+		else
+			return false;
 		
 	}
+
 
 
 
@@ -77,8 +94,12 @@ class Model_MemberAll extends \Model_Table{
 		if(!$this->loaded()) throw $this->exception('Model Must Be Loaded Before Email Send');
 
 		$this['activation_code'] = rand(10000,99999);
+		// throw new \Exception($this['emailID'], 1);		
 		$this->save();
 		
+		$epan=$this->add('Model_Epan');//load epan model
+		$epan->tryLoadAny();
+	
 		$l=$this->api->locate('addons','xecommApp', 'location');
 			$this->api->pathfinder->addLocation(
 			$this->api->locate('addons','xecommApp'),
@@ -89,21 +110,22 @@ class Model_MemberAll extends \Model_Table{
 			)->setParent($l);
 			$tm=$this->add( 'TMail_Transport_PHPMailer' );
 			$msg=$this->add( 'SMLite' );
-			$msg->loadTemplate( 'mail/registrationVerifyMail' );
+			$msg->loadTemplate( 'mail/registrationMail' );
 
 			//$msg->trySet('epan',$this->api->current_website['name']);		
 			$enquiry_entries="some text related to register verification";
 			$msg->trySetHTML('form_entries',$enquiry_entries);
+			$msg->trySetHTML('activation_code',$this['activation_code']);
 
 			$email_body=$msg->render();	
 
-			$subject ="Your Epan Got An Enquiry !!!";
+			$subject ="You Got a New Ecomm Customer";
 
 			try{
-				$tm->send( $this['email_id'], "info@epan.in", $subject, $email_body ,false,null);
+				$tm->send($this['emailID'], $epan['email_username'], $subject, $email_body ,false,null);
 			}catch( phpmailerException $e ) {
 				// throw $e;
-				$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . "rksinha.btech@gmail.com"  )->execute();
+				$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . $epan['email_username'] )->execute();
 			}catch( Exception $e ) {
 				throw $e;
 			}
@@ -158,7 +180,7 @@ class Model_MemberAll extends \Model_Table{
 				$tm->send( "", "info@epan.in", $subject, $email_body ,false,null);
 			}catch( phpmailerException $e ) {
 				// throw $e;
-				$this->api->js($this->api->xecommauth->model->sendOrderDetail();null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
+				$this->api->js($this->api->xecommauth->model->sendOrderDetail(),null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
 			}catch( Exception $e ) {
 				throw $e;
 			}
@@ -196,6 +218,20 @@ class Model_MemberAll extends \Model_Table{
 			}catch( Exception $e ) {
 				throw $e;
 			}
+	}
+
+	function changePassword($old_passsword,$new_password){
+		if(!$this->loaded())
+			throw new \Exception('modal must be loaded at password change time');
+
+		if($this['password']==$old_passsword){
+			$this['password']=$new_password;
+			$this->save();
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 }

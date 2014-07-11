@@ -35,7 +35,7 @@ class View_Server_Register extends \View{
 					$form->displayError('referId','Refer Id Not Found');
 				}
 			}	
-
+  
 			//TODO CHECK EXISTING USER
 			$user=$this->add('xecommApp/Model_MemberAll');
 			if($user->is_registered($form['emailId'])){
@@ -47,7 +47,7 @@ class View_Server_Register extends \View{
 			$visitor=$this->add('xecommApp/Model_MemberAll');			
 			if($visitor->register($form->getAllFields())){
 				$visitor->sendVerificationMail();
-				$this->api->redirect($this->api->url(null,array('subpage'=>'xsocial-verifyaccount')));
+				$this->api->redirect($this->api->url(null,array('subpage'=>'xecomm-verifyaccount')));
 			}
 
 
