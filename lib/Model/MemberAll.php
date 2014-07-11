@@ -16,7 +16,15 @@ class Model_MemberAll extends \Model_Table{
 		$this->addField('is_active')->type('boolean')->defaultValue(true);
 		$this->addField('join_on')->type('datetime')->defaultValue(date('Y-m-d H:i:s'));
 		$this->addField('verified_on')->type('datetime')->defaultValue(null);
+		$this->addField('landmark');
+		$this->addField('city');
+		$this->addField('state');
+		$this->addField('country');
+		$this->addField('mobile_number');
+		$this->addField('pincode');
+
 		$this->add('filestore/Field_Image','profile_pic_id');
+						
 		$this->hasMany('xecommApp/Order','member_id');
 
 		$this->addExpression('name')->set('concat(first_name," ",last_name)');
@@ -233,5 +241,23 @@ class Model_MemberAll extends \Model_Table{
 			return false;
 		}
 	}
+
+	function changeAddress($data){
+		if(!$this->loaded())
+			throw new \Exception('modal must be loaded at password change time');
+		
+		$this['address']=$data['street_address'];
+		$this['landmark']=$data['landmark'];
+		$this['city']=$data['city'];
+		$this['state']=$data['state'];
+		$this['country']=$data['country'];
+		$this['pincode']=$data['pincode'];
+		$this['mobile_number']=$data['mobile_number'];
+		
+		if($this->save())
+			return true;
+		else
+			return false;
+	}	
 
 }
