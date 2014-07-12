@@ -15,6 +15,7 @@ class View_Lister_Product extends \CompleteLister{
 		$cart->setModel($this->model);
 		$this->current_row_html['add_to_cart_form']=$cart->getHTML();
 		$cart->destroy();
+
 	}
 
 	function recursiveRender(){
@@ -26,8 +27,8 @@ class View_Lister_Product extends \CompleteLister{
 			$product->addCondition('id',$_GET['product_id']);
 		}
 
+							
 		$this->setModel($product);
-
 		parent::recursiveRender();
 	}
 	
@@ -43,7 +44,6 @@ class View_Lister_Product extends \CompleteLister{
 			)->setParent($l);
 
 		return array('view/xecommApp-productlist');
-
 
 	}
 

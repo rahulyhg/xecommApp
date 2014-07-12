@@ -26,6 +26,7 @@ class Model_MemberAll extends \Model_Table{
 		$this->add('filestore/Field_Image','profile_pic_id');
 						
 		$this->hasMany('xecommApp/Order','member_id');
+		$this->hasMany('xecommApp/DiscountVoucherUsed','member_id');
 
 		$this->addExpression('name')->set('concat(first_name," ",last_name)');
 

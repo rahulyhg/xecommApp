@@ -14,7 +14,8 @@ class Model_Product extends \Model_Table{
 		$this->addField('original_price');
 		$this->addField('sale_price');
 		$this->addField('created_at')->type('date')->defaultValue(date('Y-m-d'));		
-		$this->addField('expiry_date');
+		$this->addField('discount')->defaultValue(0)->PlaceHolder('Discount Amount in % i.e. 10 ');
+		// $this->addField('expiry_date');
 		$this->addField('is_publish')->type('boolean');
 		$this->add('filestore/Field_Image','Product_image_id');
 
@@ -26,9 +27,9 @@ class Model_Product extends \Model_Table{
 		$this->hasMany('xecommApp/ProductDetails','product_id');
 		$this->hasMany('xecommApp/ProductImages','product_id');
 		$this->hasMany('xecommApp/CustomFields','product_id');
-
+		
 		$this->add('dynamic_model/Controller_AutoCreator');
+	
 	}
-
 }
 

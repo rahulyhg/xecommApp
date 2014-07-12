@@ -8,13 +8,9 @@ class View_Server_SearchFilter extends \View{
 		
 		$form = $this->add('Form');
 		$element = $form->add('HtmlElement');
-		$slider = $form->addField('Slider','sl','Price Range');
-		$slider->getInput(array('min'=>100,'max'=>1000,'step'=>1000));
-		$s='#'.$slider->name.'_slider';
-
-		$this->js(true)->_selector($s)->bind('slide',$element->js()->_enclose()->html(
-		$this->js()->_selector($s)->slider('value')	
-			));
-
+		$slider = $form->addField('hidden','price_range')->set('0:5000000');
+		$slider_div = $form->add('View');
+		$slider_value_div = $form->add('View');
+		$this->js(true)->univ()->AmountRangeSlider($slider_div,$slider,$slider_value_div,0,5000000);
 	}
 }

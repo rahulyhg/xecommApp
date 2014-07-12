@@ -13,7 +13,7 @@ class Plugins_AuthenticationCheck extends \componentBase\Plugin{
 	}
 
 	function AuthenticatePage($obj,&$page){
-
+		$this->js(true)->_load('xsocialApp-js1');
 		$subpage = $_GET['subpage'];
 		
 		if(strpos($subpage,	'xecomm-') === 0){

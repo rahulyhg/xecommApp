@@ -9,6 +9,8 @@ class Model_Order extends \Model_Table{
 		parent::init();
 
 		$this->hasOne('xecommApp/MemberAll','member_id');
+		// $this->hasOne('xecommApp/DiscountVoucher','discountvoucher_id');
+		
 		$this->addField('name')->caption('Order ID');
 		$this->addField('order_status')->enum(array('OrderPlaced','OrderShiiped','OrderDenied'));
 		$this->addField('payment_status')->enum(array('Pending','Cleared','Denied'));
@@ -21,6 +23,7 @@ class Model_Order extends \Model_Table{
 		$this->addField('order_date')->defaultValue(date('Y-m-d'));
 		
 		$this->hasMany('xecommApp/OrderDetails','order_id');
+		// $this->hasMany('xecommApp/DiscountVoucherUsed','order_id');
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
 

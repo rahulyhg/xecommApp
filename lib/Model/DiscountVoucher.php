@@ -8,11 +8,14 @@ class Model_DiscountVoucher extends \Model_Table{
 	function init(){
 		parent::init();
 		
-		$this->hasOne('xecommApp/MemberAll','member_id');
 		$this->addField('name')->caption('Voucher Number');
-		$this->addField('pin')->caption('Voucher PIN');
-		$this->addField('discount');
+		$this->addField('from')->caption('Strating Date');
+		$this->addField('to')->caption('Expire Date');
+		$this->addField('no_person')->caption('No of Person');
+		$this->addField('discount')->caption('Discount Amount');
 
+		$this->hasMany('xecommApp/DiscountVoucherUsed','discountvoucher_id');
+		// $this->hasMany('xecommApp/Order','discountvoucher_id');
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
 }
