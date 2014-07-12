@@ -23,11 +23,22 @@ class Model_Product extends \Model_Table{
 		$this->addField('is_special')->type('boolean');
 		$this->addField('is_mostviewed')->type('boolean');
 
+		$this->addField('search_string')->type('text');
+
 		$this->hasMany('xecommApp/ProductDetails','product_id');
 		$this->hasMany('xecommApp/ProductImages','product_id');
 		$this->hasMany('xecommApp/CustomFields','product_id');
-
+		$this->addHook('beforeSave',$this);
 		$this->add('dynamic_model/Controller_AutoCreator');
+	}
+
+	function beforeSave(){
+		$this['search_string']= $this->ref('category_id')->get('name') . " ".
+								$this["name"]. " ".
+								$this['sku']. " ".
+								$this["description"]. " ".
+								$this['sale_price']
+							;
 	}
 
 }

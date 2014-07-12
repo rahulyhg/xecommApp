@@ -22,9 +22,14 @@ class View_Lister_Product extends \CompleteLister{
 
 		if($_GET['category_id'])
 			$product->addCondition('category_id',$_GET['category_id']);
-		elseif($_GET['product_id']){
-			$product->addCondition('id',$_GET['product_id']);
+		elseif($search=$_GET['search']){
+			// throw $this->exception($_GET['search']);
+			// $result->addExpression('Relevance')->set('MATCH(search_string) AGAINST ("'.$search.'" IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION)');
+			$product->addExpression('Relevance')->set('MATCH(search_string) AGAINST ("'.$search.'" IN NATURAL LANGUAGE MODE)');
+			$product->addCondition('Relevance','>',0);
+			$product->setOrder('Relevance','Desc');
 		}
+
 
 		$this->setModel($product);
 
