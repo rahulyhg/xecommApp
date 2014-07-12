@@ -12,8 +12,8 @@ class page_xecommApp_page_owner_main extends page_componentBase_page_owner_main{
 		$menu->addMenuItem('xecommApp_page_owner_user','Users Management');
 		$menu->addMenuItem('xecommApp_page_owner_payment','Payment');
 		$menu->addMenuItem('xecommApp_page_owner_shipping','Shipping');
-
+		$menu->addMenuItem('xecommApp_page_owner_discountVoucher','E-Discount');
+		$menu->addMenuItem('xecommApp_page_owner_configuration','Configuration');
 
 	}
-
 }
