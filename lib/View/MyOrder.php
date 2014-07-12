@@ -10,16 +10,16 @@ function init(){
 			$this->js()->univ()->newWindow($this->api->url("xecommApp/page_printorder",array('order_id'=>$_GET['print'],'cut_page'=>1)),null,'height=689,width=1246,scrollbar=1')->execute();
 		}
 		
-		if($_GET['button']){
-			$this->js()->univ()->newWindow($this->api->url("xecommApp/page_orderdetail",array('order_id'=>$_GET['detail'],'cut_page'=>1)),null,'height=689,width=1246,scrollbar=1')->execute();
-		}
+		// if($_GET['button']){
+		// 	$this->js()->univ()->newWindow($this->api->url("xecommApp/page_orderdetail",array('order_id'=>$_GET['detail'],'cut_page'=>1)),null,'height=689,width=1246,scrollbar=1')->execute();
+		// }
 		$order=$this->add('xecommApp/Model_Order');
 		$order->getAllOrder($this->api->cu_id);
 		$grid=$this->add('Grid');
 		$grid->setModel($order);
 
 		$grid->addColumn('button','print');
-		$grid->addColumn('button','detail');
+		// $grid->addColumn('button','detail');
 		
 	}  
 	

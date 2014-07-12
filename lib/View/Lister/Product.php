@@ -27,7 +27,6 @@ class View_Lister_Product extends \CompleteLister{
 			$product->addCondition('id',$_GET['product_id']);
 		}
 
-							
 		$this->setModel($product);
 		parent::recursiveRender();
 	}
@@ -44,7 +43,6 @@ class View_Lister_Product extends \CompleteLister{
 			)->setParent($l);
 
 		return array('view/xecommApp-productlist');
-
 	}
 
 }
