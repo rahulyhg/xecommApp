@@ -1,0 +1,46 @@
+<div id="<?$_name?>" class="container" style="border:2px solid rgb(123,189,63);padding:5px;width:800px;">
+
+<div class="row">
+	<div class="col-md-10 col-sm-10">
+		<b>Hello <?$member_name?>, thank you for your order.</b>
+	</div>	
+</div>
+<div style="background-color:rgb(123,189,63);color:white;padding:5px;">
+	<b>Purchasing Information</b>
+</div>
+	<table border="1" style="padding:5px;">
+		<tr>
+			<td>
+			<b>E-mail Address :</b> <?$member_emailID?><br>
+			<b>Delivery Address : </b> <br>
+			<?$member_name?><br>
+			<?$member_address?>,&nbsp; 
+			<?$member_landmark?>,&nbsp;
+			<?$member_city?>,&nbsp;
+			<?$member_state?>,&nbsp;<br>
+			<?$member_country?>,&nbsp;
+			<?$member_pincode?>
+			</td>
+		</tr>
+	</table>
+	
+	<div style="background-color:black;color:white;">
+		Order Grand Total : Rs. <?$net_amount?>
+	</div>
+	<div style="background-color:rgb(123,189,63);color:white;padding:5px;">
+		<b>Order Summary</b>
+		<div style="min-height:200px;">
+		<?$order_detail?>
+		</div>
+	</div>
+
+	<?$Content?>
+
+	<div style="padding:5px;">
+		<hr>	
+		 Got questions? Visit our online Help department, available 24 hours a day: <br>
+		 http://www.buddytrade.in
+		<b>Thank you for choosing Buddy Trade.</b>	
+	</div>
+
+</div>
