@@ -10,7 +10,7 @@ class View_Server_Products extends \View{
 		
 		$product_view->setModel('xecommApp/Model_Product');
 		$paginator = $product_view->add('Paginator');
-		$paginator->ipp(3);
+		$paginator->ipp(12);
 
 	}
 }
