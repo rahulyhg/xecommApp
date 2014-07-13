@@ -31,6 +31,8 @@ class View_Lister_Product extends \CompleteLister{
 			$product->setOrder('Relevance','Desc');
 		}
 
+		if($product->count()->getOne()>0)
+			$this->template->del('no_product_found');
 
 		$this->setModel($product);
 		parent::recursiveRender();
