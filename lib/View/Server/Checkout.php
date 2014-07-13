@@ -59,6 +59,7 @@ class View_Server_Checkout extends \View{
 		
 		$social_user_for_points=$this->add('xsocialApp/Model_AllVerifiedMembers');
 		$social_user_for_points->tryLoadBy('emailID',$this->api->xecommauth->model['emailID']);
+		$points=0;
 		if($social_user_for_points->loaded()){
 			$points=$social_user_for_points->ref('xsocialApp/PointTransaction')->sum('points');
 			$points_info_field->set($points);

@@ -28,14 +28,17 @@ class View_CartItem extends \View{
 		
 
 		$form=$this->add('Form',null,'qty',array('form_horizontal'));
-		$form->addField('line','qty')->set($this->cart_item['qty']);
+		$q_f=$form->addField('Number','qty')->set($this->cart_item['qty']);
+		$q_f->setAttr('size',1);
+		$q_f->js(true)->spinner(array('min'=>1));
 		$s_f=$form->addField('line','rate')->set($this->cart_item['sale_price']);
 		$s_f->setAttr( 'disabled', 'true' )->addClass('disabled_input');
+
+		$this->api->js()->_load( 'xecomm-checkout2' );
 		
-		$s_f->js( 'change' )->univ()
-			->calculateRate();
-
-
+		$q_f->js( 'change' )->univ()->calculateRate();
+		$btn_submit=$form->add('View')->addClass('btn btn-warning')->addStyle(array('margin-top'=>'25px','margin-left'=>'5px'))->set('Update');
+		$btn_submit->js('click')->submit();
 
 		if($form->isSubmitted()){
 			$all_items = $this->api->recall('xecommApp_cart',array());
@@ -47,6 +50,7 @@ class View_CartItem extends \View{
 
 			$i=0;
 			foreach ($all_items as $item) {
+
 				if($item['id']==$this->cart_item['id']){
 					$all_items[$i]=$this->cart_item;
 					break;	
@@ -55,6 +59,7 @@ class View_CartItem extends \View{
 			}
 			
 			$this->api->memorize('xecommApp_cart',$all_items);
+			$form->js()->univ(null,$form->js()->_selector('.xecommApp-cart')->trigger('reload'))->closeDialog()->execute();
 		}
 
 		parent::recursiveRender();
