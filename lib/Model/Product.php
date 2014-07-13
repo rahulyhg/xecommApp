@@ -35,6 +35,7 @@ class Model_Product extends \Model_Table{
 	}
 
 	function beforeSave(){
+
 		$this['search_string']= $this->ref('category_id')->get('name') . " ".
 								$this["name"]. " ".
 								$this['sku']. " ".
