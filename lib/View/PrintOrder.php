@@ -7,7 +7,7 @@ class View_PrintOrder extends \View{
 		parent::init();
 
 
-		$member=$this->add('xecommApp/Model_MemberAll')->load($this->api->cu_id);
+		$member=$this->add('xecommApp/Model_MemberAll')->load($this->api->xecommauth->model->id);
 		$this->template->trySet('member_name',$member['name']);
 		$this->template->trySet('member_emailID',$member['emailID']);
 		$this->template->trySet('member_address',$member['address']);
@@ -28,11 +28,11 @@ class View_PrintOrder extends \View{
 	function setModel($model){
 
 		$order_detail = $this->add('xecommApp/Model_OrderDetails')->addCondition('order_id',$model->id);
-
 		$view=$this->add('xecommApp/View_OrderDetail',null,'order_detail');
 		$view->setModel($order_detail);
 		parent::setModel($model);
 		// $view->template->set('date',)
+
 	}
 
 	function defaultTemplate(){

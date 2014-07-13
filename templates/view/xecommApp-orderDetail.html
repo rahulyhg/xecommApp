@@ -1,4 +1,51 @@
 <div id="<?$_name?>">
-<?$Content?>
+<table width='100%' class='table'>
+	<tbody class='table-striped'>
+		<tr>
+			<th>Sno</th>
+			<th>Product</th>
+			<th>Qty</th>
+			<th>Rate</th>
+			<th>Unit</th>
+			<th>Amount</th>
+		</tr>
+	<?rows?>
+	<?row?>
+		<tr class='text-center'>
+			<td><?$sno?></td>
+			<td><?$product?></td>
+			<td><?$qty?></td>
+			<td><?$rate?></td>
+			<td><?$unit?></td>
+			<td><?$amount?></td>
+		</tr>
+		<?/row?>
+	<?/rows?>
+		<tr>
+			<td>&nbsp;</td>
+			<th>Total</th>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td class='text-center'><?$gross_amount?></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<th>Ponts ReDeemed</th>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td><?$points_redeemed?></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<th>Net Amount</th>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td class='text-center'><b>&#8377;</b> <?$net_amount?></td>
+		</tr>
+	</tbody>
+</table>
 
 </div>

@@ -1,17 +1,19 @@
-<div id="<?$_name?>" class="container" style="border:2px solid rgb(123,189,63);padding:5px;width:800px;">
+<link rel="stylesheet" type="text/css" href="templates/default/css/epan.css">
 
+<div id="<?$_name?>" class="container well" style="border:2px solid rgb(123,189,63);padding:5px;width:800px;">
+
+<div class='panel panel-info text-center'>
+	<h3>Order Information</h3>
+</div>
 <div class="row">
 	<div class="col-md-10 col-sm-10">
-		<b>Hello <?$member_name?>, thank you for your order.</b>
+		Hello <b style='text-transform: uppercase'><?$member_name?></b>, thank you for your order.
 	</div>	
 </div>
-<div style="background-color:rgb(123,189,63);color:white;padding:5px;">
-	<b>Purchasing Information</b>
-</div>
-	<table border="1" style="padding:5px;">
+	<table style="width:100%; text-transform:capitalize;" class='table' >
 		<tr>
-			<td>
-			<b>E-mail Address :</b> <?$member_emailID?><br>
+			<td >
+			<b>E-mail Address :</b> <span style='text-transform:none'><?$member_emailID?></span><br>
 			<b>Delivery Address : </b> <br>
 			<?$member_name?><br>
 			<?$member_address?>,&nbsp; 

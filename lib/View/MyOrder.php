@@ -3,18 +3,19 @@
 namespace xecommApp;
 
 class View_MyOrder extends \View{
+	
 function init(){
 	parent::init();
 
 		if($_GET['print']){
-			$this->js()->univ()->newWindow($this->api->url("xecommApp/page_printorder",array('order_id'=>$_GET['print'],'cut_page'=>1)),null,'height=689,width=1246,scrollbar=1')->execute();
+			$this->js()->univ()->newWindow($this->api->url("xecommApp/page_printorder",array('order_id'=>$_GET['print'],'cut_page'=>1,'subpage'=>'xecomm-junk')),null,'height=689,width=1246,scrollbar=1')->execute();
 		}
 		
 		// if($_GET['button']){
 		// 	$this->js()->univ()->newWindow($this->api->url("xecommApp/page_orderdetail",array('order_id'=>$_GET['detail'],'cut_page'=>1)),null,'height=689,width=1246,scrollbar=1')->execute();
 		// }
 		$order=$this->add('xecommApp/Model_Order');
-		$order->getAllOrder($this->api->cu_id);
+		$order->getAllOrder($this->api->xecommauth->model->id);
 		$grid=$this->add('Grid');
 		$grid->setModel($order);
 
