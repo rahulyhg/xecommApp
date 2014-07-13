@@ -33,6 +33,8 @@ class View_Lister_Product extends \CompleteLister{
 			$product->setOrder('Relevance','Desc');
 		}
 
+		if(!$product->count()->getOne())
+			$this->template->trySetHtml('no_product_found','<h3>No Product Found</h3>');
 
 		$this->setModel($product);
 		parent::recursiveRender();
