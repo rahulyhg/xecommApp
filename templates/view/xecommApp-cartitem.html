@@ -4,14 +4,16 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4">
-		<?$product_name?>
+	<div class="col-md-3 text text-danger" >
+		<h4><?$product_name?></h4>
 	</div>
+	
 	<div class="col-md-4">
 		<?$qty?>
 	</div>
+
 	<div class="col-md-2">
-		<button class="btn btn-info " onclick='javascript:$(this).univ().ajaxec("index.php?page=xecommApp_page_ajaxhandler_removecartitem&item_id=<?$id?>")'>Remove</button>	
+		<button class="btn btn-info "  style="margin-top:25px;margin-left:-99px" onclick='javascript:$(this).univ().ajaxec("index.php?page=xecommApp_page_ajaxhandler_removecartitem&item_id=<?$id?>")'>Remove</button>	
 	</div>
 	
 </div>

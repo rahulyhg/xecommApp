@@ -8,7 +8,7 @@ class View_AddToCart extends \View{
 	}
 
 	function setModel($product){
-		$form = $this->add('Form',array('name'=>'adc_'.$product->id),null)->addClass('stacked');
+		$form = $this->add('Form',array('name'=>'adc_'.$product->id,'already_unique'=>true),null)->addClass('stacked');
 		$form->addClass('addtocart');
 		//$form->addField('Number','qty')->validateNotNull();
 		$form->addField('hidden','product_id')->set($product['id']);//->afterField()->add('View')->set('Make Hidden');

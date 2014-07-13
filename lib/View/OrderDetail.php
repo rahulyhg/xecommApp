@@ -2,10 +2,24 @@
 
 namespace xecommApp;
 
-class View_OrderDetail extends \View{
+class View_OrderDetail extends \CompleteLister{
+	public $sno=1;
 	function init(){
 		parent::init();
 
+	}
+
+	function formatRow(){
+		$this->current_row['sno']=$this->sno;
+		$this->sno++;
+	}
+
+	function setModel($model){
+		parent::setModel($model);
+		$order= $model->ref('order_id');
+		$this->template->set('gross_amount',$order['amount']);
+		$this->template->set('points_redeemed',$order['points_redeemed']);
+		$this->template->set('net_amount',$order['net_amount']);
 	}
 
 	function defaultTemplate(){

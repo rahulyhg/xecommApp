@@ -10,11 +10,13 @@ class View_Server_Cart extends \View{
 	}
 
 	function recursiveRender(){
+
 		
 		$total_amount=0;
 		$cart=$this->api->recall('xecommApp_cart',array());
+		
 		foreach ($cart as $junk) {
-			$total_amount+=$junk['sale_price'];
+			$total_amount+=$junk['qty']*$junk['sale_price'];
 		}
 		
 		$this->add('View')->set('Shopping Cart')->addClass('glyphicon glyphicon-shopping-cart');
