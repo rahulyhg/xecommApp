@@ -30,13 +30,18 @@ class Model_Order extends \Model_Table{
 
 	function placeOrder($order_info){
 		
+		$billing_address=$order_info['address']." ".$order_info['landmark']." ".$order_info['city']." ".$order_info['state']." ".$order_info['country']." ".$order_info['pincode'];
+		$shipping_address=$order_info['shipping_address']." ".$order_info['s_landmark']." ".$order_info['s_city']." ".$order_info['s_state']." ".$order_info['s_country']." ".$order_info['s_pincode'];
+		
 		$cart_items=$this->api->recall('xecommApp_cart',array());
 		$this['member_id'] = $this->api->xecommauth->model->id;
-		$this['billing_address'] = $order_info['address'];
-		$this['shipping_address'] = $order_info['shipping_address'];
+		$this['billing_address'] = $billing_address;
+		$this['shipping_address'] = $shipping_address;		
 		$this['payment_status'] = "Pending";
 		$this['order_status'] = "OrderPlaced";
 		$this['points_redeemed'] = $order_info['points_redeemed'];
+			
+
 		$this->save();
 		
 		$order_details=$this->add('xecommApp/Model_OrderDetails');
@@ -70,9 +75,7 @@ class Model_Order extends \Model_Table{
 	}
 
 	function processPayment(){
-
 		$this->api->forget('xecommApp_cart');
-
 		return true;
 	}
 	function checkStatus(){
@@ -88,5 +91,41 @@ class Model_Order extends \Model_Table{
 				
 		
 		// throw new \Exception($member['']);
+	}
+
+	function sendOrderDetail(){
+		if(!$this->loaded()) throw $this->exception('Model Must Be Loaded Before Email Send');
+		
+		$l=$this->api->locate('addons','xecommApp', 'location');
+			$this->api->pathfinder->addLocation(
+			$this->api->locate('addons','xecommApp'),
+			array(
+		  		'template'=>'templates',
+		  		'css'=>'templates/css'
+				)
+			)->setParent($l);
+			$tm=$this->add( 'TMail_Transport_PHPMailer' );
+			$msg=$this->add( 'SMLite' );
+			$msg->loadTemplate( 'mail/orderMail' );
+
+			// The order html view
+			$print=$this->add('xecommApp/View_PrintOrder');
+			$print->setModel($this);
+
+			//$msg->trySet('epan',$this->api->current_website['name']);		
+			$msg->trySetHTML('order_place',$print->getHTML());
+
+			$email_body=$msg->render();	
+
+			$subject ="Your Order at Buddy Trade!!!";
+
+			try{
+				$tm->send($order->ref('member_id')->get('emailID'), $epan['email_username'], $subject, $email_body ,false,null);
+			}catch( phpmailerException $e ) {
+				// throw $e;
+				$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
+			}catch( Exception $e ) {
+				throw $e;
+			}
 	}
 }
