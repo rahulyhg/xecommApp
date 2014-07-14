@@ -67,7 +67,12 @@ class View_Server_Checkout extends \View{
 		$total_field->setAttr('disabled','true');
 		$total_field->template->set('row_class','span2');
 
+		$discount_field = $form->addField('line','discount_voucher');
+		// $total_field->setAttr('disabled','true');
+		$discount_field->template->set('row_class','span2');
 
+		$discount_field->js('change')->univ()->validateVoucher($discount_field,$form,$discount_field,$total_field);
+				
 		$net_amount_field = $form->addField('line','net_amount');
 		$net_amount_field->template->set('row_class','span2');		
 		$net_amount_field->setAttr('disabled',true);
@@ -97,6 +102,7 @@ class View_Server_Checkout extends \View{
 		}
 
 		$total_field->set($initial_total);
+		$net_amount_field->set($initial_total);
 
 		// $form->add('Order')->move('address','before','shipping_address')->now();
 		// $form->add('Order')->move('city','after','address')->now();
@@ -142,7 +148,6 @@ class View_Server_Checkout extends \View{
 		$form->addSubmit('Proceed');
 
 		if($form->isSubmitted()){
-			
 			if(!$form['i_read'])
 				$form->displayError('i_read','It is Must');
 			// if($points)

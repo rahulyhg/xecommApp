@@ -20,6 +20,6 @@ $.each({
       $(this).univ().errorMessage('Points not entered correctly ');
     }
     $(net_field).val(($(total_field).val()*1) - ($(points_redeemed_field).val()*1 / points_req_for_one_rupees));
-
   }
+
 },$.univ._import);
