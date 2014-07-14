@@ -12,7 +12,7 @@ class Model_DiscountVoucher extends \Model_Table{
 		$this->addField('from')->caption('Strating Date');
 		$this->addField('to')->caption('Expire Date');
 		$this->addField('no_person')->caption('No of Person');
-		$this->addField('discount')->caption('Discount Amount');
+		// $this->addField('discount')->caption('Discount Amount');
 
 		$this->hasMany('xecommApp/DiscountVoucherUsed','discountvoucher_id');
 		// $this->hasMany('xecommApp/Order','discountvoucher_id');
