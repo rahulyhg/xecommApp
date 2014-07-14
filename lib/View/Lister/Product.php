@@ -19,6 +19,8 @@ class View_Lister_Product extends \CompleteLister{
 	}
 
 	function recursiveRender(){
+
+		$this->api->stickyGET('search');
 		$product=$this->add('xecommApp/Model_Product');
 
 		if($_GET['category_id'])
