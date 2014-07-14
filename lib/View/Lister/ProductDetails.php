@@ -6,6 +6,7 @@ class View_Lister_ProductDetails extends \CompleteLister{
 
 	function setModel($model){
 		parent::setModel($model);
+		
 	}	
 	
 	function defaultTemplate(){

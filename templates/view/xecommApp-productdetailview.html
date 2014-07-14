@@ -10,13 +10,19 @@
 		<div class="row">
 			<div class="col-md-4 col-sm-4">
 				<img id="zoom_<?$id?>" width="100%" src="<?Product_image?>logo.png<?/Product_image?>" data-zoom-image="<?Product_image?>logo.png<?/Product_image?>"/>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<?$product_images?>
+					</div>
+				</div>
 			</div>	
 			<div class="col-md-8 col-sm-8 detail thumbnail" style="box-shadow: 0 0 10px #ccc; padding:2%">
 				<div class="row">
 					<div class="col-md-4">SKU: <?$sku?></div>
-					<div class="col-md-8"><h4>Product: <?$name?></h4></div>
+					<div class="col-md-8"><h4>Product: <?$name?></h4>
+					</div>
 				</div>
-				<h3>&#8377. <?$sale_price?></h3>
+				<span><span style="text-decoration:line-through;color:red;">&#8377. <?$original_price?></span>&nbsp;&nbsp;&#8377. <?$sale_price?></span>
 				<div class="alert alert-success"><?$description?></div>
 				<div class="panel panel-default">
   					<div class="panel-heading">Product Detail</div>

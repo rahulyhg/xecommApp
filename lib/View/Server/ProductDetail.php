@@ -15,7 +15,10 @@ class View_Server_ProductDetail extends \View{
 		$details = $this->add('xecommApp/View_Lister_ProductDetails',null,'product_details');
 		$details->setModel($this->add('xecommApp/Model_ProductDetails')->addCondition('product_id',$_GET['product_id']));
 		
-
+		// do adding multiple images of a single product
+		$images = $this->add('xecommApp/View_Lister_ProductImages',null,'product_images');
+		$images->setModel($this->add('xecommApp/Model_ProductImages')->addCondition('product_id',$_GET['product_id']));		
+		
 		$cart = $this->add('xecommApp/View_AddToCart',null,'add_to_cart_form');
 		$cart->setModel($product);
 		

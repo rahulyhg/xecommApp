@@ -6,7 +6,9 @@ class Model_ProductImages extends \Model_Table {
 		parent::init();
 
 		$this->hasOne('xecommApp/Product','product_id');
+		
 		$this->add('filestore/Field_Image','image_id');
+
 		$this->add('dynamic_model/Controller_AutoCreator');
 		
 	}

@@ -10,7 +10,7 @@ class View_Lister_Product extends \CompleteLister{
 		$details->setModel($this->add('xecommApp/Model_ProductDetails')->addCondition('product_id',$this->model->id));
 		$this->current_row_html['product_details'] = $details->getHTML();
 		$details->destroy();
-
+		
 		$cart = $this->add('xecommApp/View_AddToCart',null,'add_to_cart_form');
 		$cart->setModel($this->model);
 		$this->current_row_html['add_to_cart_form']=$cart->getHTML();

@@ -39,9 +39,6 @@ class Model_Product extends \Model_Table{
 		$product=$this->add('xecommApp/Model_Product');		
 		$product->addCondition('id',$this['id']);
 		$count=$product->count()->getOne();
-		// throw new \Exception($count);
-		
-		//  if this[id] purani id me nahi he to new and check sku
 		if($count){
 			if(!$product->hasSKU($this['sku']))
 				throw new \Exception("SKU number must be Unique");

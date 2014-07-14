@@ -18,4 +18,7 @@ class page_xecommApp_page_owner_products extends page_xecommApp_page_owner_main{
 		$crud->addRef('xecommApp/ProductDetails',array('label'=>'Details'));
 		$crud->addRef('xecommApp/CustomFields',array('label'=>'Custome Fields'));
 	}
+
+
+	
 }

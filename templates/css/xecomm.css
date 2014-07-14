@@ -3,18 +3,24 @@
 .xecomm-product:hover{
 	border: 1px solid rgb(123, 189, 66); 
 	padding: 10px;
+	position: relative;
+	z-index: 10;
 	box-shadow: 0 0 10px #ccc; 
 	-moz-box-shadow: 0 0 10px #ccc; 
 	-webkit-box-shadow: 0 0 10px #ccc; 
 }
-
+div.xecomm-product{
+	height:320px !important;
+}
 #productdetail > a:hover{
 	text-decoration: none;
 }
 #productdetail > a{
 	color:rgb(123, 189, 66);
 }
-
+.price-cut{
+	text-decoration: line-through;
+}
 
 
 /*Product Detail View css*/
@@ -25,3 +31,5 @@
 	-webkit-box-shadow: 0 0 10px #ccc; 
 	width:100%;
 }
+
+/*zoom product images at product description*/
