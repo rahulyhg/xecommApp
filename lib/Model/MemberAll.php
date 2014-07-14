@@ -46,7 +46,7 @@ class Model_MemberAll extends \Model_Table{
 		$member->tryLoadAny();
 		if($member->loaded()){
 			$member['is_verify']= true;
-			$this->api->exec_plugins('verifymember_register',array($member->id,$member));
+			$this->api->exec_plugins('verifymember_register_ecomm',array($member->id,$member));
 			$member->save();
 
 			return true;
