@@ -14,7 +14,7 @@ class View_Server_Register extends \View{
 		$form->addField('line','emailId','Email id')->validateNotNull()->validateField('filter_var($this->get(), FILTER_VALIDATE_EMAIL)');
 		$form->addField('password','password')->validateNotNull('Required Field');
 		$form->addField('password','repassword')->validateNotNull('Required Field');
-		$form->addField('line','referId');
+		// $form->addField('line','referId');
 		// $form->addField('line','captcha')->add('x_captcha/Controller_Captcha');
 		$form->addSubmit('Register');
 
