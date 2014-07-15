@@ -1,0 +1,36 @@
+<!-- <link type="stylesheet" href="epan-components/xecommApp/templates/css/xecomm.css" />
+
+<script src="epan-components/xecommApp/templates/js/jquery.elevatezoom.js"></script> -->
+
+<div id="<?$_name?>">
+<!-- <ul class="zoom-multiple-img"> -->
+
+<div class='row' style="margin:0 auto 0 auto;">	
+	<?rows?>
+		<?row?>
+		<!-- 	<li> -->	
+
+		<div class="col-md-3" style="margin:0;padding:0;">				
+			<img id="zoom_ex_<?$id?>" class="thumbnail" style="width:100%;min-width:100%;max-width:100%;height:auto;" src="<?image?>logo.png<?/image?>" 
+				data-zoom-image="<?image?>logo.png<?/image?>"	/>
+		</div>
+
+<script>
+$("#zoom_ex_<?$id?>").elevateZoom({
+    		cursor: 'pointer', 
+    		zoomWindowPosition: 1,
+    		galleryActiveClass: 'active', 
+    		imageCrossfade: false,
+    		zoomWindowHeight: 230, 
+    		zoomWindowWidth:300, 
+    		borderSize: 0, 
+    		easing:true
+    	}); 
+</script>
+
+	<!-- </li> -->
+<?/row?>
+	<?/rows?>
+<!-- </ul> -->
+</div>
+</div>
