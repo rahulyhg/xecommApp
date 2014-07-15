@@ -16,6 +16,8 @@ class Model_Order extends \Model_Table{
 		$this->addField('payment_status')->enum(array('Pending','Cleared','Denied'));
 		$this->addField('amount');
 		$this->addField('points_redeemed');
+		$this->addField('discount_voucher');
+		$this->addField('discount_voucher_amount');
 		$this->addField('net_amount');
 		$this->addField('order_summary');
 		$this->addField('billing_address');
@@ -24,7 +26,7 @@ class Model_Order extends \Model_Table{
 		
 		$this->hasMany('xecommApp/OrderDetails','order_id');
 		// $this->hasMany('xecommApp/DiscountVoucherUsed','order_id');
-		$this->add('dynamic_model/Controller_AutoCreator');
+		// $this->add('dynamic_model/Controller_AutoCreator');
 	}
 
 
@@ -40,7 +42,6 @@ class Model_Order extends \Model_Table{
 		$this['payment_status'] = "Pending";
 		$this['order_status'] = "OrderPlaced";
 		$this['points_redeemed'] = $order_info['points_redeemed'];
-			
 
 		$this->save();
 		
@@ -58,20 +59,26 @@ class Model_Order extends \Model_Table{
 
 				$order_details->saveAndUnload();
 				$i++;
-
 			}
 
 			$this['amount']=$total_amount;
+			//TODO NET AMOUNT, TAXES, DISCOUNT VOUCHER AMOUNT etc.. CALCULATING AGAIN FOR SECURITY REGION 
+			$discountvoucher=$this->add('xecommApp/Model_DiscountVoucher');
+
+			$discount_per=$discountvoucher->isUsable($order_info['discount_voucher']);
+			$discount_voucher_amount=$total_amount * $discount_per /100;	
+
 			
-			//TODO NET AMOUNT, TAXES etc..
-			$this['net_amount'] = $total_amount - ( $order_info['points_redeemed'] / 10 );
-			
+			$this['discount_voucher']=$order_info['discount_voucher'];
+			$this['discount_voucher_amount']=$discount_voucher_amount;
+			$this['net_amount'] = $total_amount - (( $order_info['points_redeemed'] / 10 ) + $discount_voucher_amount );
+			// throw new \Exception($discount_voucher_amount."net amount ".$this['net_amount']);				
+										
 			$this->save();
 
+			$discountvoucher->processDiscountVoucherUsed($this['discount_voucher']);
 
 			return true;
-
-
 	}
 
 	function processPayment(){
@@ -94,8 +101,12 @@ class Model_Order extends \Model_Table{
 	}
 
 	function sendOrderDetail(){
+		
 		if(!$this->loaded()) throw $this->exception('Model Must Be Loaded Before Email Send');
 		
+		$epan=$this->add('Model_Epan');//load epan model
+		$epan->tryLoadAny();
+	
 		$l=$this->api->locate('addons','xecommApp', 'location');
 			$this->api->pathfinder->addLocation(
 			$this->api->locate('addons','xecommApp'),
@@ -104,28 +115,32 @@ class Model_Order extends \Model_Table{
 		  		'css'=>'templates/css'
 				)
 			)->setParent($l);
-			$tm=$this->add( 'TMail_Transport_PHPMailer' );
-			$msg=$this->add( 'SMLite' );
-			$msg->loadTemplate( 'mail/orderMail' );
+		
+		$tm=$this->add( 'TMail_Transport_PHPMailer' );
+		$msg=$this->add( 'SMLite' );
+		$msg->loadTemplate( 'mail/orderMail' );
 
-			// The order html view
-			$print=$this->add('xecommApp/View_PrintOrder');
-			$print->setModel($this);
+		//$msg->trySet('epan',$this->api->current_website['name']);		
+		$print=$this->add('xecommApp/View_PrintOrder');
+		
+		$print->setModel($this);
+		
 
-			//$msg->trySet('epan',$this->api->current_website['name']);		
-			$msg->trySetHTML('order_place',$print->getHTML());
+		$msg->trySet('epan',$this->api->current_website['name']);		
+		$msg->trySetHTML('order_place',$print->getHTML(false));
 
-			$email_body=$msg->render();	
+		$email_body=$msg->render();	
 
-			$subject ="Your Order at Buddy Trade!!!";
+		$subject ="Thanku for Order";
 
-			try{
-				$tm->send($order->ref('member_id')->get('emailID'), $epan['email_username'], $subject, $email_body ,false,null);
-			}catch( phpmailerException $e ) {
-				// throw $e;
-				$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . ""  )->execute();
-			}catch( Exception $e ) {
-				throw $e;
-			}
+		try{
+			$tm->send($this->api->xecommauth->model['emailID'], $epan['email_username'], $subject, $email_body ,false,null);
+		}catch( phpmailerException $e ) {
+			// throw $e;
+			$this->api->js(null,'$("#form-'.$_REQUEST['form_id'].'")[0].reset()')->univ()->errorMessage( $e->errorMessage() . " " . $epan['email_username'] )->execute();
+		}catch( Exception $e ) {
+			throw $e;
+		}
 	}
+
 }

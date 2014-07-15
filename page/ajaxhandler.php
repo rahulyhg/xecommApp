@@ -28,11 +28,25 @@ class page_xecommApp_page_ajaxhandler extends Page {
 		$voucher=$this->add('xecommApp/Model_DiscountVoucher');
 		if(!$_GET['v_no']) return "";
 		if(!$voucher->isUsable($_GET['v_no'])){
-			echo "$('".$_GET['form']."').atk4_form('fieldError','".$_GET['voucher_field']."','Not Valid')";
+			
+			$str="$('".$_GET['total_field']."').val() * 0 / 100";
+			$dis="$('".$_GET['discount_amount_field']."').val(0)";
+			$dis.=";";
+			$net="$('".$_GET['total_field']."').val() - $('".$_GET['discount_amount_field']."').val()";
+			$dis.="$('".$_GET['net_field']."').val($net)";
+			$dis.=";";
+			$dis.="$('".$_GET['form']."').atk4_form('fieldError','".$_GET['voucher_field']."','Not Valid')";			
+			echo $dis; 
 			exit;
-		}else{
-			$str="";
-			echo $str;
+		}else{			
+			$str=$voucher->isUsable($_GET['v_no']);
+			$str="$('".$_GET['total_field']."').val() * '".$str."' / 100";
+			$dis="$('".$_GET['discount_amount_field']."').val($str)";
+			$dis.=";";
+			$net="$('".$_GET['total_field']."').val() - $('".$_GET['discount_amount_field']."').val()";
+			$dis.="$('".$_GET['net_field']."').val($net)";	
+			
+			echo $dis;
 			exit;
 		}
 

@@ -71,13 +71,18 @@ class View_Server_Checkout extends \View{
 		// $total_field->setAttr('disabled','true');
 		$discount_field->template->set('row_class','span2');
 
-		$discount_field->js('change')->univ()->validateVoucher($discount_field,$form,$discount_field,$total_field);
-				
+		
+		$discount_amount_field = $form->addField('line','discount_amount');
+		$discount_amount_field->setAttr('disabled','true');
+		$discount_amount_field->template->set('row_class','span2');
+
 		$net_amount_field = $form->addField('line','net_amount');
 		$net_amount_field->template->set('row_class','span2');		
 		$net_amount_field->setAttr('disabled',true);
 
  		$points_redeemed_field->js('change')->univ()->calculateNet($total_field,$points_redeemed_field, $net_amount_field, 10, $points, 1000);
+		
+		$discount_field->js('change')->univ()->validateVoucher($discount_field,$form,$discount_field,$discount_amount_field,$total_field,$net_amount_field);
 		// $total_field->set();
 
 		// $form->addField('text','shipping_address');
@@ -94,6 +99,7 @@ class View_Server_Checkout extends \View{
 				->calculateRow($qty_field,$product_rate,$amount_field)
 				->calculateTotal($amount_fields_array,$total_field)
 				->calculateNet($total_field,$points_redeemed_field, $net_amount_field, 10, $points, 1000)
+				->validateVoucher($discount_field,$form,$discount_field,$discount_amount_field,$total_field,$net_amount_field)				
 				;
 			// $qty_field->js('change')->univ()
 
@@ -154,7 +160,7 @@ class View_Server_Checkout extends \View{
 			$order=$this->add('xecommApp/Model_Order');
 			//FILL OTHER VALUES
 			$order->placeOrder($form->getAllFields());
-
+			
 			$order->sendOrderDetail();
 
 			$this->api->xecommauth->model->redeemPoint($form['points_redeemed'],"Used In point redeem order ID $order->id");

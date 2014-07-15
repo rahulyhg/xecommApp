@@ -30,7 +30,7 @@ class Model_Product extends \Model_Table{
 		$this->hasMany('xecommApp/ProductImages','product_id');
 		$this->hasMany('xecommApp/CustomFields','product_id');
 		$this->addHook('beforeSave',$this);
-		$this->add('dynamic_model/Controller_AutoCreator');
+		// $this->add('dynamic_model/Controller_AutoCreator');
 	
 	}
 

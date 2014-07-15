@@ -42,8 +42,6 @@ class View_Server_Register extends \View{
 				$form->displayError('emailId','Email id Alredy Existing');
 			}	
 
-
-
 			$visitor=$this->add('xecommApp/Model_MemberAll');			
 			if($visitor->register($form->getAllFields())){
 				$visitor->sendVerificationMail();

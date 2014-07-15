@@ -18,7 +18,7 @@ class Model_DiscountVoucher extends \Model_Table{
 		// $this->hasMany('xecommApp/Order','discountvoucher_id');
 		$this->add('dynamic_model/Controller_AutoCreator');
 	}
-
+  
 	function isExpire(){
 
 		$current_date=date('Y-m-d');
@@ -27,6 +27,20 @@ class Model_DiscountVoucher extends \Model_Table{
 		else
 			return false;
 	}
+
+	function processDiscountVoucherUsed($discount_voucher){
+
+		$this->addCondition('name',$discount_voucher);
+		$this->tryLoadAny();
+		$discountvoucherused=$this->add('xecommApp/Model_DiscountVoucherUsed');
+		$discountvoucherused['member_id']=$this->api->xecommauth->model->id;
+		$discountvoucherused['discountvoucher_id']=$this['id'];
+
+		$discountvoucherused->save();
+		// throw new \Exception($discountvoucherused['id']);
+		
+	}
+
 
 	function isUsable($voucher_no){
 
@@ -39,11 +53,11 @@ class Model_DiscountVoucher extends \Model_Table{
 			
 		// if voucher expire he to error message
 		if($voucher->isExpire()){
-			throw new \Exception("voucher is expire");
+			return false;
 		}
 		// if voucher is not expire to get karo kitne person or use kar sakte he
 		else{
-			$person_used=$voucher->ref('xecommApp/DiscountVoucherUsed')->count()->getOne();
+			$person_used=$voucher->ref('xecommApp/DiscountVoucherUsed')->count()->getOne();			
 			
 			if($voucher['no_person'] > $person_used){
 				return $voucher['discount_amount'];
@@ -51,8 +65,8 @@ class Model_DiscountVoucher extends \Model_Table{
 			}
 			// if no of person already consumed to error message 
 			else{
-				throw new \Exception("this Voucher exceed it's limit");
-				
+				return false;
+				// throw new \Exception("this Voucher exceed it's limit");
 			}
 							
 		}

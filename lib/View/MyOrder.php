@@ -20,6 +20,7 @@ function init(){
 		$grid->setModel($order);
 
 		$grid->addColumn('button','print');
+		$grid->addPaginator(10);
 		// $grid->addColumn('button','detail');
 		
 	}  

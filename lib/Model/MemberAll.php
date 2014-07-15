@@ -129,8 +129,9 @@ class Model_MemberAll extends \Model_Table{
 			$email_body=$msg->render();	
 
 			$subject ="You Got a New Ecomm Customer";
-
+				
 			try{
+			
 				$tm->send($this['emailID'], $epan['email_username'], $subject, $email_body ,false,null);
 			}catch( phpmailerException $e ) {
 				// throw $e;
