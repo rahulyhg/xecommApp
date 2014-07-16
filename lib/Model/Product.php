@@ -12,7 +12,7 @@ class Model_Product extends \Model_Table{
 		$this->addField('name')->Caption('Product Name')->mandatory(true);
 		$this->addField('description')->type('text')->mandatory(true);
 		$this->addField('original_price')->mandatory(true);
-		$this->addField('sale_price')->mandatory(true);
+		$this->addField('sale_price')->type('int')->mandatory(true);
 		$this->addField('created_at')->type('date')->defaultValue(date('Y-m-d'));		
 		// $this->addField('discount')->defaultValue(0)->PlaceHolder('Discount Amount in % i.e. 10 ');
 		// $this->addField('expiry_date');
@@ -23,6 +23,7 @@ class Model_Product extends \Model_Table{
 		$this->addField('is_featured')->type('boolean');
 		$this->addField('is_special')->type('boolean');
 		$this->addField('is_mostviewed')->type('boolean');
+		$this->addField('show_offer')->type('boolean');
 
 		$this->addField('search_string')->type('text')->system(true);
 
@@ -30,30 +31,19 @@ class Model_Product extends \Model_Table{
 		$this->hasMany('xecommApp/ProductImages','product_id');
 		$this->hasMany('xecommApp/CustomFields','product_id');
 		$this->addHook('beforeSave',$this);
-		// $this->add('dynamic_model/Controller_AutoCreator');
+		$this->add('dynamic_model/Controller_AutoCreator');
 	
 	}
 
 	function beforeSave(){
-		
-		$product=$this->add('xecommApp/Model_Product');		
-		$product->addCondition('id',$this['id']);
-		$count=$product->count()->getOne();
-		if($count){
-			if(!$product->hasSKU($this['sku']))
-				throw new \Exception("SKU number must be Unique");
-		}
-		else{
-			if( $product->hasSKU($this['sku']) )
-			throw new \Exception("SKU number must be Unique");
-		}
-		// if this[id] purani id me he to replace sku and check  
-
-		if($product['id'] != $this['id'])
-			throw new \Exception("Error Processing Request", 1);
+		$product_old=$this->add('xecommApp/Model_Product');
+		if($this->loaded())
+			$product_old->addCondition('id','<>',$this->id);
+		$product_old->addCondition('sku',$this['sku']);
+		$product_old->tryLoadAny();
+		if($product_old->loaded())
+			throw new \Exception("Allready Exist");
 			
-		// if($product->hasSKU($this['sku']))
-		// 	throw new \Exception("SKU Number".$this['sku'] ."is already taken");
 		$this['search_string']= $this->ref('category_id')->get('name') . " ".
 								$this["name"]. " ".
 								$this['sku']. " ".
@@ -62,11 +52,24 @@ class Model_Product extends \Model_Table{
 							;
 	}
 
-	function hasSKU($sku){
-		$product_old=$this->add('xecommApp/Model_Product');
-		$product_old->addCondition('sku',$sku);
-		return $product_old->count()->getOne();
-	} 
+	// function hasSKU($sku){
+	// 	if($this->loaded())
+	// 		$this->addCondition('id','<>',$this->id)
+	// 	$product_old=$this->add('xecommApp/Model_Product');
+	// 	$product_old->addCondition('sku',$sku);
+	// 	return $product_old->count()->getOne();
+	// } 
+	function priceFilter( $minPrice, $maxPrice ){
+		// if($this->loaded())
+		// 	throw new \Exception("Product Model must be loaded before product priceFilter");
+		$this->addCondition('sale_price','>=',$minPrice);
+		$this->addCondition('sale_price','<=', $maxPrice);
+
+		return $this;
+	}	
+
+			
+
 
 }
 

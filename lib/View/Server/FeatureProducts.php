@@ -10,7 +10,6 @@ class View_Server_FeatureProducts extends \View{
 		$latest=$tab->addTab('Features');
 
 		$feature_view=$latest->add('xecommApp/View_Lister_ProductWidget');
-
 		$feature_view->setModel('xecommApp/Model_FeatureProducts');
 
 		$paginator = $feature_view->add('Paginator');

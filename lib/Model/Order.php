@@ -7,7 +7,7 @@ class Model_Order extends \Model_Table{
 
 	function init(){
 		parent::init();
-
+ 
 		$this->hasOne('xecommApp/MemberAll','member_id');
 		// $this->hasOne('xecommApp/DiscountVoucher','discountvoucher_id');
 		

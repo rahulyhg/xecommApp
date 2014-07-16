@@ -15,7 +15,6 @@ function init(){
 	$form->template->tryDel('button_row');
 
 
-
    	if($form->isSubmitted()){
    		$form->api->redirect($this->api->url(null,array('subpage'=>'xecomm-dashboard','search'=>$form['search'])));
    		$this->js()->reload(array(''))->execute();

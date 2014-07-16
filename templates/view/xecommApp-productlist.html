@@ -21,22 +21,29 @@
 	.price-cut{
 		text-decoration: line-through;
 	}
+	
 </style>
 <link type="stylesheet" href="epan-components/xecommApp/templates/css/xecomm.css" />
 
 <div id="<?$_name?>">
 		<?rows?>
 		<?row?>
-		<a href="?epan=web&subpage=xecommproductdetail&product_id=<?$id?>" >	
+		<a href="?epan=web&subpage=xecommproductdetail&product_id=<?$id?>" >
 			<div id="product" class="xecomm-product" >
 			    <div class="row">
 			    	<div class="col-md-12 text-center">
+	       			
+	       			<?offer?>
+	       				<div class="ribbon-wrapper-green">
+	      	 			<div class="ribbon-green">offer</div>
+	      				</div>		
+	      			<?/offer?>
+	      			
 						<div class='text-center product-img' style="padding:0 auto 0 auto;">
 							<img class="thumbnail" style="margin:0 auto 0 auto" width="200px"  src="<?Product_image?>logo.png<?/Product_image?>"/>
 						</div>
-			    	</div>	
-			    </div>
-
+			    	</div>
+			    </div>		
 				<div>
 					<div>
 						<p class="capitalize"><?name?>Products<?/name?></p>

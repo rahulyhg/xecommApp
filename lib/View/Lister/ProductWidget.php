@@ -15,6 +15,10 @@ class View_Lister_ProductWidget extends \CompleteLister{
 		$cart->setModel($this->model);
 		$this->current_row_html['add_to_cart_form']=$cart->getHTML();
 		$cart->destroy();
+
+		if(!$this->model['show_offer'])
+				$this->current_row_html['offer']='';
+			
 	}
 
 	// function recursiveRender(){

@@ -1,5 +1,5 @@
 <?php
-
+	
 class page_xecommApp_page_owner_memberorder extends page_xecommApp_page_owner_main{
 
 	function init(){

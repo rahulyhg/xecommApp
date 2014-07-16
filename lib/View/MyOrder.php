@@ -17,6 +17,7 @@ function init(){
 		$order=$this->add('xecommApp/Model_Order');
 		$order->getAllOrder($this->api->xecommauth->model->id);
 		$grid=$this->add('Grid');
+		$order->_dsql()->order('id','desc');
 		$grid->setModel($order);
 
 		$grid->addColumn('button','print');
