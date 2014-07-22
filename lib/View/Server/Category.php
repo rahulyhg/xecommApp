@@ -11,6 +11,5 @@ class View_Server_Category extends \View{
 
 		$view=$this->add('xecommApp/View_Lister_Category');
 		$view->setModel($categories);
-
 	}
 }

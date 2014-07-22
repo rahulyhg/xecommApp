@@ -6,12 +6,12 @@ class View_Lister_Product extends \CompleteLister{
 
 	function formatRow(){
   			// throw new \Exception(print_r($this->model), 1);
-  			
+  			  
 		$details = $this->add('xecommApp/View_Lister_ProductDetails',null,'product_details');
 		$details->setModel($this->add('xecommApp/Model_ProductDetails')->addCondition('product_id',$this->model->id));
 		$this->current_row_html['product_details'] = $details->getHTML();
 		$details->destroy();
-		
+				
 		$cart = $this->add('xecommApp/View_AddToCart',null,'add_to_cart_form');
 		$cart->setModel($this->model);
 		$this->current_row_html['add_to_cart_form']=$cart->getHTML();
@@ -20,8 +20,7 @@ class View_Lister_Product extends \CompleteLister{
 		if(!$this->model['show_offer'])
 				$this->current_row_html['offer']='';
 			
-		$product=$this->add('xecommApp/Model_Product')->addCondition('is_publish',true);		
-		
+		$product=$this->add('xecommApp/Model_Product')->addCondition('is_publish',true);				
 	}
 
 	function recursiveRender(){
