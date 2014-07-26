@@ -26,7 +26,7 @@ class Model_Order extends \Model_Table{
 		
 		$this->hasMany('xecommApp/OrderDetails','order_id');
 		// $this->hasMany('xecommApp/DiscountVoucherUsed','order_id');
-		// $this->add('dynamic_model/Controller_AutoCreator');
+		$this->add('dynamic_model/Controller_AutoCreator');
 	}
 
 
